@@ -15,10 +15,7 @@ import com.palmergames.bukkit.util.BiomeUtil;
 import com.palmergames.util.MathUtil;
 import com.palmergames.util.StringMgmt;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -334,7 +331,8 @@ public class AreaSelectionUtil {
 
 		List<WorldCoord> out = new ArrayList<>();
 		for (WorldCoord worldCoord : selection)
-			if (worldCoord.getTownyWorld().getMinDistanceFromOtherTownsPlots(worldCoord, town) >= TownySettings.getMinDistanceFromTownPlotblocks()) {
+			if (worldCoord.getTownyWorld().getMinDistanceFromOtherTownsPlots(worldCoord, town, true) >= 3 &&
+				worldCoord.getTownyWorld().getMinDistanceFromOtherTownsPlots(worldCoord, town,false) >= TownySettings.getMinDistanceFromTownPlotblocks()) {
 				out.add(worldCoord);
 			} else {
 				TownyMessaging.sendDebugMsg("AreaSelectionUtil:filterInvalidProximity - Coord: " + worldCoord + " too close to another town." );

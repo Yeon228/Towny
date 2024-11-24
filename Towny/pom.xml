@@ -398,9 +398,9 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>com.github.TownyAdvanced</groupId>
+                    <groupId>org.jboss.bridger</groupId>
                     <artifactId>bridger</artifactId>
-                    <version>1.7.1.Final</version>
+                    <version>1.6.Final</version>
                     <executions>
                         <!-- run after "compile", runs bridger on main classes -->
                         <execution>
