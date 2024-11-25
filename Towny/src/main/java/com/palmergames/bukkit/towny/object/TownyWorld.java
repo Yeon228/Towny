@@ -914,11 +914,9 @@ public class TownyWorld extends TownyObject {
 		double minSqr = -1;
 		for (Town town : getTowns().values()) {
 			if (isNpcCheck) {
-				System.out.println("Normal");
 				if (!town.getMayor().isNPC())
 					continue;
 			} else {
-				System.out.println("NPC");
 				if (town.getMayor().isNPC())
 					continue;
 			}
