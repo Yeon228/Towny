@@ -3557,7 +3557,7 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 		}
 
 		// Prevent unclaiming land that would reduce the number of adjacent claims of neighbouring plots below the threshold.
-		ProximityUtil.testAdjacentUnclaimsRulesOrThrow(selection.get(0), town);
+//		ProximityUtil.testAdjacentUnclaimsRulesOrThrow(selection.get(0), town);
 
 		BukkitTools.ifCancelledThenThrow(new TownPreUnclaimCmdEvent(town, resident, world, selection));
 
