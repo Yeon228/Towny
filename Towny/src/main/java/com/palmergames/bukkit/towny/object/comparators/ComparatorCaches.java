@@ -49,7 +49,7 @@ public class ComparatorCaches {
 			});
 	
 	private static final LoadingCache<ComparatorType, List<Pair<UUID, Component>>> nationCompCache = CacheBuilder.newBuilder()
-			.expireAfterWrite(10, TimeUnit.MINUTES)
+			.expireAfterWrite(5, TimeUnit.MINUTES)
 			.build(new CacheLoader<>() {
 				public @NotNull List<Pair<UUID, Component>> load(@NotNull ComparatorType compType) {
 					return gatherNationLines(compType);
