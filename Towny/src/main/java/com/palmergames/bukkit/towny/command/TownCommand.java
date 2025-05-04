@@ -1935,7 +1935,7 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 		resident.save();
 
 		Translatable message = resident.hasTitle()
-			? Translatable.of("msg_set_title", resident.getName(), Colors.translateColorCodes(resident.getTitle()))
+			? Translatable.of("msg_set_title", resident.getName(), Colors.translateColorCodes(resident.getTitle()), sender.getName())
 			: Translatable.of("msg_clear_title_surname", "Title", resident.getName());
 
 		TownyMessaging.sendPrefixedTownMessage(resident, message);
@@ -1966,7 +1966,7 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 		resident.save();
 
 		Translatable message = resident.hasSurname()
-			? Translatable.of("msg_set_surname", resident.getName(), Colors.translateColorCodes(resident.getSurname()))
+			? Translatable.of("msg_set_surname", resident.getName(), Colors.translateColorCodes(resident.getSurname()), sender.getName())
 			: Translatable.of("msg_clear_title_surname", "Surname", resident.getName());
 
 		TownyMessaging.sendPrefixedTownMessage(resident, message);
