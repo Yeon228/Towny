@@ -913,12 +913,20 @@ public class TownyWorld extends TownyObject {
 
 		double minSqr = -1;
 		for (Town town : getTowns().values()) {
+			if (town.getNationOrNull() != null && town.getNationOrNull().getName().contains("정기선")){
+				System.out.println("port");
+				continue;
+			}
 			if (isNpcCheck) {
-				if (!town.getMayor().isNPC())
+				if (!town.getMayor().isNPC()){
+					System.out.println("normal");
 					continue;
+				}
 			} else {
-				if (town.getMayor().isNPC())
+				if (town.getMayor().isNPC()){
+					System.out.println("npc");
 					continue;
+				}
 			}
 			
 			if (homeTown != null)
