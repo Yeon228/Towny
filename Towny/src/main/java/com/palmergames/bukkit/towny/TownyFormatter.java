@@ -691,8 +691,10 @@ public class TownyFormatter {
 		List<String> ranklist = new ArrayList<>();
 		List<Resident> residents = new ArrayList<>(gov.getResidents());
 		List<String> ranks;
-		if (gov instanceof Nation)
+		if (gov instanceof Nation){
 			ranks = TownyPerms.getNationRanks();
+			ranks.remove("군인");
+		}
 		else 
 			ranks = TownyPerms.getTownRanks();
 		List<Resident> residentWithRank = new ArrayList<>();
