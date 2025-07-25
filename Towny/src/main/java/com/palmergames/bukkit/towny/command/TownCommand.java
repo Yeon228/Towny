@@ -987,7 +987,7 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 	}
 
 	private static void handleOnlineNewlyMintedOutlaw(Town town, Resident target) {
-		TownyMessaging.sendMsg(target, Translatable.of("msg_you_have_been_declared_outlaw", town.getName()));
+//		TownyMessaging.sendMsg(target, Translatable.of("msg_you_have_been_declared_outlaw", town.getName()));
 		Player player = target.getPlayer();
 		Location loc = player.getLocation();
 
