@@ -1821,7 +1821,7 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 
 		// Feedback
 		TownyMessaging.sendMsg(player, Translatable.of("msg_you_have_taken_rank_from", townWord, rank, target.getName()));
-		if (target.isOnline()) {
+		if (target.isOnline() && !rank.contains("outlaw")) {
 			TownyMessaging.sendMsg(target, Translatable.of("msg_you_have_had_rank_taken", townWord, rank));
 			plugin.deleteCache(TownyAPI.getInstance().getPlayer(target));
 		}

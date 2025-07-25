@@ -312,7 +312,7 @@ public class ResidentUtil {
 		}
 		// If outlaws can enter towns OR the outlaw has towny.admin.outlaw.teleport_bypass perm, player is warned but not teleported.
 		if (TownySettings.canOutlawsEnterTowns() || hasBypassNode) {
-			TownyMessaging.sendMsg(outlaw, Translatable.of("msg_you_are_an_outlaw_in_this_town", town));
+//			TownyMessaging.sendMsg(outlaw, Translatable.of("msg_you_are_an_outlaw_in_this_town", town));
 			if (town.getTownBlockTypeCache().getNumTownBlocks(TownBlockType.JAIL, CacheType.ALL) < 1)
 				return;
 
