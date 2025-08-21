@@ -74,10 +74,10 @@ public class DailyTimerTask extends TownyTimerTask {
 				TownyMessaging.sendGlobalMessage(Translatable.of("msg_new_day_tax"));
 				TownyMessaging.sendDebugMsg("Collecting Town Taxes");
 				collectTownTaxes();
-				TownyMessaging.sendDebugMsg("Collecting Nation Taxes");
-				collectNationTaxes();
 				TownyMessaging.sendDebugMsg("Collecting Town Costs");
 				collectTownCosts();
+				TownyMessaging.sendDebugMsg("Collecting Nation Taxes");
+				collectNationTaxes();
 				TownyMessaging.sendDebugMsg("Collecting Nation Costs");
 				collectNationCosts();
 			} else {
