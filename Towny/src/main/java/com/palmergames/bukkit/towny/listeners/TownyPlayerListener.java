@@ -733,8 +733,8 @@ public class TownyPlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		// Let's ignore Citizens NPCs
-		if (PluginIntegrations.getInstance().isNPC(event.getPlayer()))
-			return;
+//		if (PluginIntegrations.getInstance().isNPC(event.getPlayer()))
+//			return;
 		
 		if (plugin.isError()) {
 			event.setCancelled(true);
