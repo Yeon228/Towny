@@ -694,6 +694,7 @@ public class TownyFormatter {
 		if (gov instanceof Nation){
 			ranks = TownyPerms.getNationRanks();
 			ranks.remove("군인");
+			ranks.remove("PVP");
 		}
 		else 
 			ranks = TownyPerms.getTownRanks();

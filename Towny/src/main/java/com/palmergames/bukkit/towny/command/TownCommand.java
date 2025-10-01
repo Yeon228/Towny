@@ -2334,8 +2334,9 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 
 		if (split.length == 0) 
 			throw new TownyException("Eg. /town set taxpercentcap 10000");
-
-		town.setMaxPercentTaxAmount(MathUtil.getDoubleOrThrow(split[0]));
+		double value = MathUtil.getDoubleOrThrow(split[0]);
+		if (value < 1000) value = 1000;
+		town.setMaxPercentTaxAmount(value);
 		town.save();
 
 		TownyMessaging.sendPrefixedTownMessage(town, Translatable.of("msg_town_set_tax_max_percent_amount", sender.getName(), prettyMoney(town.getMaxPercentTaxAmount())));
