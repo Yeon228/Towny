@@ -2199,7 +2199,7 @@ public class NationCommand extends BaseCommand implements CommandExecutor {
 
 		nation.setMaxPercentTaxAmount(MathUtil.getPositiveIntOrThrow(split[1]));
 
-		TownyMessaging.sendPrefixedNationMessage(nation, Translatable.of("msg_town_set_tax_max_percent_amount", sender.getName(), TownyEconomyHandler.getFormattedBalance(nation.getMaxPercentTaxAmount())));
+		TownyMessaging.sendPrefixedNationMessage(nation, Translatable.of("msg_nation_set_tax_max_percent_amount", sender.getName(), TownyEconomyHandler.getFormattedBalance(nation.getMaxPercentTaxAmount())));
 	}
 
 	public static void nationSetConqueredTax(CommandSender sender, String[] split, Nation nation) throws TownyException {
