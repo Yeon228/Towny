@@ -131,6 +131,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
@@ -422,8 +423,9 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 				return NameUtil.filterByStart(townUnclaimTabCompletes, args[1]);
 			break;
 		case "add":
-			if (args.length == 2)
-				return getVisibleResidentsForPlayerWithoutTownsStartingWith(args[1], sender);
+			if (args.length == 2){
+                return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
+			}
 			break;
 		case "kick":
 			if (args.length == 2)
