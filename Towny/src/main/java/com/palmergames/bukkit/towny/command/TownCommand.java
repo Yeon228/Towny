@@ -3417,7 +3417,7 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 
 			// Select the area, can be one or many.
 			selection = AreaSelectionUtil.selectWorldCoordArea(town, playerWorldCoord, split, true);
-
+			
 			// Fast fail when we're claiming a single worldcoord and it is already claimed.
 			if (selection.size() == 1 && playerWorldCoord.hasTownBlock())
 				throw new TownyException(Translatable.of("msg_already_claimed", playerWorldCoord.getTownOrNull()));
@@ -3554,6 +3554,9 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 		if (selection.get(0).getTownBlock().isHomeBlock())
 			throw new TownyException(Translatable.of("msg_err_cannot_unclaim_homeblock"));
 
+		if (selection.size() > 1)
+			checkPermOrThrow(player, PermissionNodes.TOWNY_COMMAND_TOWN_CLAIM_TOWN_MULTIPLE.getNode());
+		
 		if (AreaSelectionUtil.filterHomeBlock(town, selection)) {
 			// Do not stop the entire unclaim, just warn that the homeblock cannot be unclaimed
 			TownyMessaging.sendErrorMsg(player, Translatable.of("msg_err_cannot_unclaim_homeblock"));
