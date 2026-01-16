@@ -424,7 +424,7 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 			break;
 		case "add":
 			if (args.length == 2){
-                return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
+                return NameUtil.filterByStart(Bukkit.getOnlinePlayers().stream().map(Player::getName).toList(), args[1]);
 			}
 			break;
 		case "kick":
