@@ -259,8 +259,14 @@ public class ResidentCommand extends BaseCommand implements CommandExecutor {
 			TownyCommandAddonAPI.getAddonCommand(CommandType.RESIDENT, split[0]).execute(sender, "resident", split);
 		} else {
 			final Optional<Resident> resOpt = Optional.ofNullable(TownyUniverse.getInstance().getResident(split[0]));
-			if (resOpt.isPresent())
-				TownyEconomyHandler.economyExecutor().execute(() -> TownyMessaging.sendStatusScreen(sender, TownyFormatter.getStatus(resOpt.get(), sender)));
+			if (resOpt.isPresent()){
+				try {
+					TownyEconomyHandler.economyExecutor().execute(() -> TownyMessaging.sendStatusScreen(sender, TownyFormatter.getStatus(resOpt.get(), sender)));
+				}catch (Exception e){
+					resOpt.get().setTitle("");
+					resOpt.get().setSurname("");
+				}
+			}
 			else
 				throw new TownyException(Translatable.of("msg_err_not_registered_1", split[0]));
 		}
