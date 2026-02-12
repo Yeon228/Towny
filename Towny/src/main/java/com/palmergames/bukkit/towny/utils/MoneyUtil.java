@@ -101,9 +101,11 @@ public class MoneyUtil {
 		}
 
 	}
+	public static void nationWithdraw(Player player, Resident resident, Nation nation, int amount){
+		nationWithdraw(player, resident, nation, amount, null);
+	}
 	
-	public static void nationWithdraw(Player player, Resident resident, Nation nation, int amount) {
-		
+	public static void nationWithdraw(Player player, Resident resident, Nation nation, int amount, String[] args) {
 		try {
 			commonTests(amount, resident, nation.getCapital(), player.getLocation(), true, true);
 
@@ -114,6 +116,9 @@ public class MoneyUtil {
 			// Withdraw from bank.
 			nation.withdrawFromBank(resident, amount);
 			TownyMessaging.sendPrefixedNationMessage(nation, Translatable.of("msg_xx_withdrew_xx", resident.getName(), amount, Translatable.of("nation_sing")));
+			if (args != null){
+				TownyMessaging.sendPrefixedNationMessage(nation, "출금 사유 : " + String.join(" ", args));
+			}
 			BukkitTools.fireEvent(new NationTransactionEvent(nation, transaction));
 			
 		} catch (TownyException e) {

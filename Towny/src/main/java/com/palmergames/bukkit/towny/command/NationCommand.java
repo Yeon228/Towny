@@ -2553,26 +2553,49 @@ public class NationCommand extends BaseCommand implements CommandExecutor {
 			Resident resident = getResidentOrThrow(player);
 			Nation nation = getNationFromResidentOrThrow(resident);
 
-			if (args.length < 1 || args.length > 2)
+			if (args.length < 1) {
 				throw new TownyException(Translatable.of("msg_must_specify_amnt", "/nation" + (withdraw ? " withdraw" : " deposit")));
+				
+			}
 
+			if (args.length > 2 && !withdraw){
+				throw new TownyException(Translatable.of("msg_must_specify_amnt", "/nation deposit"));
+			}
+			
 			int amount;
-			if ("all".equalsIgnoreCase(args[0].trim()))
-				amount = (int) Math.floor(withdraw ? nation.getAccount().getHoldingBalance() : resident.getAccount().getHoldingBalance());
-			else 
-				amount = MathUtil.getIntOrThrow(args[0].trim());
+			//all 명령어 삭제
+//			if ("all".equalsIgnoreCase(args[0].trim()))
+//				amount = (int) Math.floor(withdraw ? nation.getAccount().getHoldingBalance() : resident.getAccount().getHoldingBalance());
+//			else 
+//				amount = MathUtil.getIntOrThrow(args[0].trim());
+			amount = MathUtil.getIntOrThrow(args[0].trim());
 
 			// Stop 0 amounts being supplied.
 			if (amount == 0)
 				throw new TownyException(Translatable.of("msg_err_amount_must_be_greater_than_zero"));
 
-			if (args.length == 1) {
-				if (withdraw)
-					MoneyUtil.nationWithdraw(player, resident, nation, amount);
-				else 
+			if (args.length == 1){
+				if (withdraw)throw new TownyException("국가 금고에서 돈을 출금하기 위해서는 사유를 입력해야 합니다.");
+				else {
 					MoneyUtil.nationDeposit(player, resident, nation, amount);
+					return;
+				}
+				
+			}
+			
+			if (args.length > 1){
+				MoneyUtil.nationWithdraw(player, resident, nation, amount, StringMgmt.remFirstArg(args));
 				return;
 			}
+			
+			
+//			if (args.length == 1) {
+//				if (withdraw)
+//					MoneyUtil.nationWithdraw(player, resident, nation, amount);
+//				else 
+//					MoneyUtil.nationDeposit(player, resident, nation, amount);
+//				return;
+//			}
 			
 			if (withdraw)
 				throw new TownyException(Translatable.of("msg_must_specify_amnt", "/nation withdraw"));

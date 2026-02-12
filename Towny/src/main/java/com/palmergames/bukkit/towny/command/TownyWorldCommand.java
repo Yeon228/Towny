@@ -279,6 +279,7 @@ public class TownyWorldCommand extends BaseCommand implements CommandExecutor {
 	private void togglePVP(CommandSender sender, TownyWorld world, Optional<Boolean> choice) throws NoPermissionException {
 		checkPermOrThrow(sender, PermissionNodes.TOWNY_COMMAND_TOWNYWORLD_TOGGLE_PVP.getNode());
 		world.setPVP(choice.orElse(!world.isPVP()));
+		plugin.resetCache();
 		TownyMessaging.sendMsg(sender, Translatable.of("msg_changed_world_setting", "Global PVP", world.getName(), formatBool(world.isPVP())));
 	}
 
@@ -327,12 +328,14 @@ public class TownyWorldCommand extends BaseCommand implements CommandExecutor {
 	private void toggleWorldMobs(CommandSender sender, TownyWorld world, Optional<Boolean> choice) throws NoPermissionException {
 		checkPermOrThrow(sender, PermissionNodes.TOWNY_COMMAND_TOWNYWORLD_TOGGLE_WORLDMOBS.getNode());
 		world.setWorldMobs(choice.orElse(!world.hasWorldMobs()));
+		plugin.resetCache();
 		TownyMessaging.sendMsg(sender, Translatable.of("msg_changed_world_setting", "World Mob spawns", world.getName(), formatBool(world.hasWorldMobs())));
 	}
 
 	private void toggleWildernessMobs(CommandSender sender, TownyWorld world, Optional<Boolean> choice) throws NoPermissionException {
 		checkPermOrThrow(sender, PermissionNodes.TOWNY_COMMAND_TOWNYWORLD_TOGGLE_WILDERNESSMOBS.getNode());
 		world.setWildernessMobs(choice.orElse(!world.hasWildernessMobs()));
+		plugin.resetCache();
 		TownyMessaging.sendMsg(sender, Translatable.of("msg_changed_world_setting", "Wilderness Mob spawns", world.getName(), formatBool(world.hasWildernessMobs())));
 	}
 
