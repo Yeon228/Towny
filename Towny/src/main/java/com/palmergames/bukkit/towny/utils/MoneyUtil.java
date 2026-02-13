@@ -128,20 +128,27 @@ public class MoneyUtil {
 	}
 	
 	public static void nationDeposit(Player player, Resident resident, Nation nation, int amount) {
+		nationDeposit(player, resident, nation, amount, null);
+	}
+
+	public static void nationDeposit(Player player, Resident resident, Nation nation, int amount, String[] args) {
 
 		try {
 			commonTests(amount, resident, nation.getCapital(), player.getLocation(), true, false);
 
 			Transaction transaction = Transaction.deposit(amount).paidBy(resident).paidTo(nation).build();
-			
+
 			BukkitTools.ifCancelledThenThrow(new NationPreTransactionEvent(nation, transaction));
-			
+
 			// Deposit into nation.
 			nation.depositToBank(resident, amount);
-			
+
 			TownyMessaging.sendPrefixedNationMessage(nation, Translatable.of("msg_xx_deposited_xx", resident.getName(), amount, Translatable.of("nation_sing")));
+			if (args != null){
+				TownyMessaging.sendPrefixedNationMessage(nation, "입금 사유 : " + String.join(" ", args));
+			}
 			BukkitTools.fireEvent(new NationTransactionEvent(nation, transaction));
-			
+
 		} catch (TownyException e) {
 			TownyMessaging.sendErrorMsg(player, e.getMessage(player));
 		}

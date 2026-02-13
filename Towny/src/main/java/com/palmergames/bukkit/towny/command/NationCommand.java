@@ -2558,9 +2558,9 @@ public class NationCommand extends BaseCommand implements CommandExecutor {
 				
 			}
 
-			if (args.length > 2 && !withdraw){
-				throw new TownyException(Translatable.of("msg_must_specify_amnt", "/nation deposit"));
-			}
+//			if (args.length > 2 && !withdraw){
+//				throw new TownyException(Translatable.of("msg_must_specify_amnt", "/nation deposit"));
+//			}
 			
 			int amount;
 			//all 명령어 삭제
@@ -2584,7 +2584,12 @@ public class NationCommand extends BaseCommand implements CommandExecutor {
 			}
 			
 			if (args.length > 1){
-				MoneyUtil.nationWithdraw(player, resident, nation, amount, StringMgmt.remFirstArg(args));
+				if (withdraw){
+					MoneyUtil.nationWithdraw(player, resident, nation, amount, StringMgmt.remFirstArg(args));
+				}
+				else{
+					MoneyUtil.nationDeposit(player, resident, nation, amount, StringMgmt.remFirstArg(args));
+				}
 				return;
 			}
 			
