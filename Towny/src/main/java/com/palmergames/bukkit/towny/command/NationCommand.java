@@ -2584,11 +2584,15 @@ public class NationCommand extends BaseCommand implements CommandExecutor {
 			}
 			
 			if (args.length > 1){
+				String message = String.join(" ", StringMgmt.remFirstArg(args));
+				if (message.length() > 10){
+					throw new TownyException("사유는 10자까지만 입력 가능합니다.");
+				}
 				if (withdraw){
-					MoneyUtil.nationWithdraw(player, resident, nation, amount, StringMgmt.remFirstArg(args));
+					MoneyUtil.nationWithdraw(player, resident, nation, amount, message);
 				}
 				else{
-					MoneyUtil.nationDeposit(player, resident, nation, amount, StringMgmt.remFirstArg(args));
+					MoneyUtil.nationDeposit(player, resident, nation, amount, message);
 				}
 				return;
 			}
@@ -2602,17 +2606,18 @@ public class NationCommand extends BaseCommand implements CommandExecutor {
 //				return;
 //			}
 			
-			if (withdraw)
-				throw new TownyException(Translatable.of("msg_must_specify_amnt", "/nation withdraw"));
-
-			// Check depositing into another town
-			checkPermOrThrow(player, PermissionNodes.TOWNY_COMMAND_NATION_DEPOSIT_OTHER.getNode());
-
-			Town town = getTownOrThrow(args[1]);
-			if (!nation.hasTown(town))
-				throw new TownyException(Translatable.of("msg_err_not_same_nation", town.getName()));
-
-			MoneyUtil.townDeposit(player, resident, town, nation, amount);
+			//더이상 해당 라인까지 도달 안함
+//			if (withdraw)
+//				throw new TownyException(Translatable.of("msg_must_specify_amnt", "/nation withdraw"));
+//
+//			// Check depositing into another town
+//			checkPermOrThrow(player, PermissionNodes.TOWNY_COMMAND_NATION_DEPOSIT_OTHER.getNode());
+//
+//			Town town = getTownOrThrow(args[1]);
+//			if (!nation.hasTown(town))
+//				throw new TownyException(Translatable.of("msg_err_not_same_nation", town.getName()));
+//
+//			MoneyUtil.townDeposit(player, resident, town, nation, amount);
 		} catch (TownyException e) {
 			TownyMessaging.sendErrorMsg(player, e.getMessage(player));
 		}

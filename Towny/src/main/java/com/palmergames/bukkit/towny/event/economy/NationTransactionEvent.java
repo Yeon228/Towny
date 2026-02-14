@@ -3,6 +3,7 @@ package com.palmergames.bukkit.towny.event.economy;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.economy.transaction.Transaction;
 import com.palmergames.bukkit.towny.object.economy.BankAccount;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An event thrown when a {@link Nation} {@link BankAccount} either receives or
@@ -11,6 +12,8 @@ import com.palmergames.bukkit.towny.object.economy.BankAccount;
 public class NationTransactionEvent extends BankTransactionEvent {
 
 	final Nation nation;
+	@Nullable
+	final String message;
 
 	/**
 	 * An event thrown when a {@link Nation} {@link BankAccount} either receives or
@@ -23,6 +26,13 @@ public class NationTransactionEvent extends BankTransactionEvent {
 	public NationTransactionEvent(Nation nation, Transaction transaction) {
 		super(nation.getAccount(), transaction);
 		this.nation = nation;
+		this.message = null;
+	}
+	
+	public NationTransactionEvent(Nation nation, Transaction transaction, @Nullable String message){
+		super(nation.getAccount(), transaction);
+		this.nation = nation;
+		this.message = message;
 	}
 
 	/**
@@ -30,6 +40,13 @@ public class NationTransactionEvent extends BankTransactionEvent {
 	 */
 	public Nation getNation() {
 		return nation;
+	}
+
+	/**
+	 * @return {@link String}
+	 */
+	public String getMessage() {
+		return message;
 	}
 
 	/**

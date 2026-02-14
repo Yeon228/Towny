@@ -105,7 +105,7 @@ public class MoneyUtil {
 		nationWithdraw(player, resident, nation, amount, null);
 	}
 	
-	public static void nationWithdraw(Player player, Resident resident, Nation nation, int amount, String[] args) {
+	public static void nationWithdraw(Player player, Resident resident, Nation nation, int amount, String message) {
 		try {
 			commonTests(amount, resident, nation.getCapital(), player.getLocation(), true, true);
 
@@ -116,10 +116,13 @@ public class MoneyUtil {
 			// Withdraw from bank.
 			nation.withdrawFromBank(resident, amount);
 			TownyMessaging.sendPrefixedNationMessage(nation, Translatable.of("msg_xx_withdrew_xx", resident.getName(), amount, Translatable.of("nation_sing")));
-			if (args != null){
-				TownyMessaging.sendPrefixedNationMessage(nation, "출금 사유 : " + String.join(" ", args));
+			if (message != null){
+				TownyMessaging.sendPrefixedNationMessage(nation, "출금 사유 : " + message);
+				BukkitTools.fireEvent(new NationTransactionEvent(nation, transaction, message));
 			}
-			BukkitTools.fireEvent(new NationTransactionEvent(nation, transaction));
+			else{
+				BukkitTools.fireEvent(new NationTransactionEvent(nation, transaction));
+			}
 			
 		} catch (TownyException e) {
 			TownyMessaging.sendErrorMsg(player, e.getMessage(player));
@@ -131,7 +134,7 @@ public class MoneyUtil {
 		nationDeposit(player, resident, nation, amount, null);
 	}
 
-	public static void nationDeposit(Player player, Resident resident, Nation nation, int amount, String[] args) {
+	public static void nationDeposit(Player player, Resident resident, Nation nation, int amount, String message) {
 
 		try {
 			commonTests(amount, resident, nation.getCapital(), player.getLocation(), true, false);
@@ -144,10 +147,14 @@ public class MoneyUtil {
 			nation.depositToBank(resident, amount);
 
 			TownyMessaging.sendPrefixedNationMessage(nation, Translatable.of("msg_xx_deposited_xx", resident.getName(), amount, Translatable.of("nation_sing")));
-			if (args != null){
-				TownyMessaging.sendPrefixedNationMessage(nation, "입금 사유 : " + String.join(" ", args));
+			if (message != null){
+				TownyMessaging.sendPrefixedNationMessage(nation, "입금 사유 : " + message);
+				BukkitTools.fireEvent(new NationTransactionEvent(nation, transaction, message));
 			}
-			BukkitTools.fireEvent(new NationTransactionEvent(nation, transaction));
+			else{
+				BukkitTools.fireEvent(new NationTransactionEvent(nation, transaction));
+			}
+			
 
 		} catch (TownyException e) {
 			TownyMessaging.sendErrorMsg(player, e.getMessage(player));
