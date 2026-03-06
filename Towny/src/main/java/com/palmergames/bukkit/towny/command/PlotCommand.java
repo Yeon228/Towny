@@ -113,7 +113,8 @@ public class PlotCommand extends BaseCommand implements CommandExecutor {
 		"group",
 		"district",
 		"jailcell",
-		"trust"
+		"trust",
+		"give"
 	);
 	
 	private static final List<String> plotGroupTabCompletes = Arrays.asList(
@@ -237,6 +238,9 @@ public class PlotCommand extends BaseCommand implements CommandExecutor {
 					else if (args.length == 3)
 						return NameUtil.filterByStart(BaseCommand.setOnOffCompletes, args[2]);
 					break;
+				case "give":
+					if (args.length == 2)
+						return NameUtil.filterByStart(getTownyStartingWith(args[1], "r"), args[1]);
 				case "claim":
 				case "unclaim":
 				case "notforsale":
@@ -332,6 +336,7 @@ public class PlotCommand extends BaseCommand implements CommandExecutor {
 		case "claim" -> parsePlotClaim(player, StringMgmt.remFirstArg(split), resident, townBlock);
 		case "clear" -> parsePlotClear(resident, townBlock);
 		case "evict" -> parsePlotEvict(resident, townBlock);
+		case "give" -> parsePlotGive(player, StringMgmt.remFirstArg(split), resident, townBlock);
 		case "fs", "forsale" -> parsePlotForSale(player, StringMgmt.remFirstArg(split), resident, townBlock);
 		case "group" -> parsePlotGroup(StringMgmt.remFirstArg(split), resident, townBlock, player);
 		case "district" -> parseDistrict(StringMgmt.remFirstArg(split), resident, townBlock, player);
@@ -473,6 +478,40 @@ public class PlotCommand extends BaseCommand implements CommandExecutor {
 		// Evict and save the townblock.
 		townBlock.evictOwnerFromTownBlock();
 		TownyMessaging.sendMsg(resident, Translatable.of("msg_plot_evict"));
+	}
+	
+	public void parsePlotGive(Player player, String[] split, Resident resident, TownBlock townBlock) throws TownyException {
+		if (!player.hasPermission("pecore.plot.give")){
+			throw new TownyException("해당 명령어를 사용 할 권한이 없습니다.");
+		}
+		if (!(resident.isMayor() || resident.hasTownRank("부시장"))){
+			throw new TownyException("시장과 부시장만 이용 가능한 명령어입니다.");
+		}
+
+		Player targetPlayer = Bukkit.getPlayer(split[0]);
+		Resident target = getResidentOrThrow(split[0]);
+		Town targetTown = target.getTownOrNull();
+		Town senderTown = resident.getTownOrNull();
+		if (targetPlayer == null){
+			throw new TownyException("접속 중인 마을원에게만 Plot을 줄 수 있습니다.");
+		}
+		if (targetTown != null && senderTown != null && targetTown.getUUID().equals(senderTown.getUUID())){
+			if (townBlock.getResidentOrNull() != null){
+				throw new TownyException("이미 주인이 있는 Plot을 다른 사람에게 지급할 수 없습니다.");
+			}
+			if (townBlock.hasDistrict() || townBlock.hasPlotObjectGroup()){
+				throw new TownyException("그룹에 속해있는 Plot을 다른 사람에게 지급할 수 없습니다.");
+			}
+			
+			setPlotForSale(resident, townBlock.getWorldCoord(), 0);
+
+			ArrayList<WorldCoord> worldCoords = new ArrayList<>();
+			worldCoords.add(townBlock.getWorldCoord());
+			plugin.getScheduler().runAsync(new PlotClaim(plugin, player, target, worldCoords, true, false, false));
+		}
+		else{
+			throw new TownyException("같은 마을원에게만 Plot을 지급할 수 있습니다.");
+		}
 	}
 
 	public void parsePlotForSale(Player player, String[] split, Resident resident, TownBlock townBlock) throws TownyException {
