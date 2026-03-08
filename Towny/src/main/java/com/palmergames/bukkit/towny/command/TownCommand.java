@@ -521,7 +521,7 @@ public class TownCommand extends BaseCommand implements CommandExecutor {
 								.map(e -> "-"+e)
 								.collect(Collectors.toList());
 				} else {
-					return getVisibleResidentsForPlayerWithoutTownsStartingWith(args[1], sender);
+					return NameUtil.filterByStart(Bukkit.getOnlinePlayers().stream().map(Player::getName).toList(), args[1]);
 				}
 			}
 		case 3:
