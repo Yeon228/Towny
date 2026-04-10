@@ -913,11 +913,12 @@ public class TownyWorld extends TownyObject {
 
 		double minSqr = -1;
 		for (Town town : getTowns().values()) {
-			if (town.getNationOrNull() != null 
-				&& (town.getNationOrNull().getName().contains("정기선") 
-				|| town.getNationOrNull().getName().equals("성지") 
-				|| town.getNationOrNull().getName().equals("운하"))){
-				continue;
+			if (town.getNationOrNull() != null){
+				switch (town.getNationOrNull().getName()){
+					case "정기선", "정기선_보호", "성지", "운하", "기차" -> {
+						continue;
+					}
+				}
 			}
 			if (isNpcCheck) {
 				if (!town.getMayor().isNPC()){
