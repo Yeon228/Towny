@@ -277,7 +277,25 @@ public class ResidentCommand extends BaseCommand implements CommandExecutor {
 
 		if (split.length == 0) {
 			Resident res = getResidentOrThrow(player);
-			plugin.getScheduler().runAsync(() -> TownyMessaging.sendStatusScreen(player, TownyFormatter.getStatus(res, player)));
+			
+//			plugin.getScheduler().runAsync(() -> TownyMessaging.sendStatusScreen(player, TownyFormatter.getStatus(res, player)));
+			plugin.getScheduler().runAsync(() -> {
+				try {
+					TownyMessaging.sendStatusScreen(player, TownyFormatter.getStatus(res, player));
+				} catch (Exception e) {
+
+					// 🔥 로그 찍기
+					System.out.println("[Towny] Resident status error: " + player.getName());
+
+					// 🔥 초기화
+					res.setTitle("");
+					res.setSurname("");
+
+					// 🔥 안내
+					res.getPlayer().sendMessage("칭호 설정 오류로 Title, Surname 이 초기화되었습니다.");
+
+				}
+			});
 			return;
 		}
 
@@ -304,7 +322,25 @@ public class ResidentCommand extends BaseCommand implements CommandExecutor {
 			if (!resident.getName().equals(player.getName()))
 				checkPermOrThrow(player, PermissionNodes.TOWNY_COMMAND_RESIDENT_OTHERRESIDENT.getNode());
 
-			plugin.getScheduler().runAsync(() -> TownyMessaging.sendStatusScreen(player, TownyFormatter.getStatus(resident, player)));
+			plugin.getScheduler().runAsync(() -> {
+				try {
+					TownyMessaging.sendStatusScreen(player, TownyFormatter.getStatus(resident, player));
+				} catch (Exception e) {
+
+					// 🔥 로그 찍기
+					System.out.println("[Towny] Resident status error: " + player.getName());
+
+					// 🔥 초기화
+					resident.setTitle("");
+					resident.setSurname("");
+
+					// 🔥 안내
+					resident.getPlayer().sendMessage("칭호 설정 오류로 Title, Surname 이 초기화되었습니다.");
+
+				}
+			});
+			return;
+//			plugin.getScheduler().runAsync(() -> TownyMessaging.sendStatusScreen(player, TownyFormatter.getStatus(resident, player)));
 		}
 		}
 	}
