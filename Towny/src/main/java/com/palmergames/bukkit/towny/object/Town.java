@@ -813,7 +813,8 @@ public class Town extends Government implements TownBlockOwner {
 			}
 		}
 		// No one has the rank to succeed the mayor, choose a resident.
-		findNewMayor(getResidents());
+		if (!findNewMayor(getResidents()))
+			TownyMessaging.sendErrorMsg("Town " + getName() + " could not find a new mayor and is left without one.");
 	}
 
 	/**
@@ -828,8 +829,13 @@ public class Town extends Government implements TownBlockOwner {
 				continue;
 
 			TownMayorChosenBySuccessionEvent tmcbse = new TownMayorChosenBySuccessionEvent(mayor, newMayor, potentialResidents);
-			setMayor(tmcbse.getNewMayor());
-			return true;
+			final Resident chosen = tmcbse.getNewMayor();
+			setMayor(chosen);
+
+			// setMayor() does nothing when the resident doesn't belong to this town, which
+			// would leave the town mayorless while we reported a successful succession.
+			if (chosen != null && mayor == chosen)
+				return true;
 		}
 		return false;
 	}

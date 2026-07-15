@@ -197,6 +197,11 @@ public class TownyUniverse {
         long time = System.currentTimeMillis() - startTime;
         towny.getLogger().info("Database: Loaded in " + time + "ms.");
 
+        // A mayorless town makes any getMayor() call throw, so name the towns which need fixing.
+        for (Town town : getTowns())
+            if (!town.hasMayor())
+                towny.getLogger().warning("Database: Town " + town.getName() + " has no mayor. Set one with '/ta set mayor " + town.getName() + " <resident>'.");
+
         // Throw Event.
         BukkitTools.fireEvent(new TownyLoadedDatabaseEvent());
         

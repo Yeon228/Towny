@@ -920,14 +920,10 @@ public class TownyWorld extends TownyObject {
 					}
 				}
 			}
-			if (isNpcCheck) {
-				if (!town.getMayor().isNPC()){
-					continue;
-				}
-			} else {
-				if (town.getMayor().isNPC()){
-					continue;
-				}
+			// A mayorless town is treated as a normal town, so that it keeps the regular
+			// proximity rule rather than dropping out of the filter entirely.
+			if ((town.hasMayor() && town.getMayor().isNPC()) != isNpcCheck){
+				continue;
 			}
 			
 			if (homeTown != null)
