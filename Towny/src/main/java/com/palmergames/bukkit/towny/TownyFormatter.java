@@ -255,9 +255,9 @@ public class TownyFormatter {
 		if (resident.isJailed())
 			screen.addComponentOf("jailLine", getResidentJailedLine(resident, translator));
 		
-		// Friends [12]: James, Carry, Mason
-		if (resident.getFriends() != null && !resident.getFriends().isEmpty())
-			screen.addComponentOf("friendsLine", getFormattedTownyObjects(translator.of("status_friends"), new ArrayList<>(resident.getFriends())));
+//		// Friends [12]: James, Carry, Mason
+//		if (resident.getFriends() != null && !resident.getFriends().isEmpty())
+//			screen.addComponentOf("friendsLine", getFormattedTownyObjects(translator.of("status_friends"), new ArrayList<>(resident.getFriends())));
 		
 		// Add any metadata which opt to be visible.
 		List<Component> fields = getExtraFields(resident);
